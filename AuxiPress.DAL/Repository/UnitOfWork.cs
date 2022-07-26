@@ -17,10 +17,16 @@ namespace AuxiPress.DAL.Repository
             Category = new CategoryRepository(_db); //A chaque création de CategoryRepo j'utilise ma DB via Entity
             CarType = new CarTypeRepository(_db);
             Product = new ProductRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
+            ShoppingCart = new ShoppingCartRepository(_db);
         }
         public ICategoryRepository Category { get; private set; }
         public ICarTypeRepository CarType { get; private set; }
         public IProductRepository Product { get; private set; }
+
+        public IShoppingCartRepository ShoppingCart { get; private set; }
+
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
 
 

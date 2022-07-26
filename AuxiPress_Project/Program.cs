@@ -3,6 +3,9 @@ using AuxiPress.DAL;
 using AuxiPress.DAL.Repository;
 using AuxiPress.DAL.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using AuxiPress.BLL;
 
 namespace AuxiPress_Project
 {
@@ -15,11 +18,20 @@ namespace AuxiPress_Project
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            /*On configure pour utiliser SQL server et ma connection string PUIS je rajoute les options et configure pour qu'il utilise UseSqlServer(Installer Entity.Framework.tools) PUIS je vais utiliser la méthode existante GetConnectionString pour rajouter la connexion */
-            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-                ));
+            /*On configure pour utiliser SQL server et ma connection string PUIS je rajoute les options et configure pour qu'il utilise UseSqlServer(Installer Entity.Framework.tools) PUIS je vais utiliser la mï¿½thode existante GetConnectionString pour rajouter la connexion */
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); //Je passe via UnitOfWork pour pouvoir facilement ajouter d'autres Repo dans le futur en utilisant cet injection de dépendance, me permet d'éviter de refaire d'autres injections!
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); //Je passe via UnitOfWork pour pouvoir facilement ajouter d'autres Repo dans le futur en utilisant cet injection de dï¿½pendance, me permet d'ï¿½viter de refaire d'autres injections!
+            builder.Services.AddSingleton<IEmailSender, EmailSender>();
+            builder.Services.AddRazorPages();
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
 
 
             var app = builder.Build();
@@ -36,8 +48,10 @@ namespace AuxiPress_Project
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
+            app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",

@@ -25,10 +25,15 @@ namespace AuxiPress.DAL.Repository
             dbSet.Add(entity);
         }
         //READ //includeProp - "Category,Cartype" (la regle de ma repo)
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
-            if(includeProperties != null)
+            if(filter != null)
+            {
+                query = query.Where(filter);
+            }
+            
+            if (includeProperties != null)
             {
                 foreach(var inclueProp in includeProperties.Split(new char[] { ','}, StringSplitOptions.RemoveEmptyEntries))
                 {
