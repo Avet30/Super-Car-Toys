@@ -1,0 +1,133 @@
+﻿@model AuxiPress.Models.ViewModels.ProductViewModel
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data"> @*Je crée un formulaire avec un HTTP Post!*@
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageURL" hidden />
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+        <div class="col-12 pb-2">
+            <h2 class="text-primary">@(Model.Product.Id!=0? "Update":"Create") Product</h2> @*Ternaire pour rendre dynamique le "titre" de notre page, Create ou Update si l'Id existe ou pas!*@
+            <hr />
+        <div asp-validation-summary="All"></div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Name"></label> 
+            <input asp-for="Product.Name" class="form-control" /> 
+            <span asp-validation-for="Product.Name" class="text-danger"></span> 
+        </div>
+           <div class="mb-3">
+            <label asp-for="Product.Description"></label> 
+            <textarea asp-for="Product.Description" rows="3" class="form-control"></textarea>
+            <span asp-validation-for="Product.Description" class="text-danger"></span> 
+        </div>
+         <div class="mb-3  col-6">
+            <label asp-for="Product.EAN"></label> 
+            <input asp-for="Product.EAN" class="form-control" /> 
+            <span asp-validation-for="Product.EAN" class="text-danger"></span> 
+        </div>
+         <div class="mb-3  col-6">
+            <label asp-for="Product.Maker"></label> 
+            <input asp-for="Product.Maker" class="form-control" /> 
+            <span asp-validation-for="Product.Maker" class="text-danger"></span> 
+        </div>
+         <div class="mb-3 col-6">
+            <label asp-for="Product.ListPrice"></label> 
+            <input asp-for="Product.ListPrice" class="form-control" /> 
+            <span asp-validation-for="Product.ListPrice" class="text-danger"></span> 
+        </div>
+         <div class="mb-3 col-6">
+            <label asp-for="Product.Price"></label> 
+            <input asp-for="Product.Price" class="form-control" /> 
+            <span asp-validation-for="Product.Price" class="text-danger"></span> 
+        </div>
+         <div class="mb-3 col-6">
+            <label asp-for="Product.Price50"></label> 
+            <input asp-for="Product.Price50" class="form-control" /> 
+            <span asp-validation-for="Product.Price50" class="text-danger"></span> 
+        </div>
+          <div class="mb-3 col-6">
+            <label asp-for="Product.Price100"></label> 
+            <input asp-for="Product.Price100" class="form-control" /> 
+            <span asp-validation-for="Product.Price100" class="text-danger"></span> 
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Product.ImageURL"></label> @*Je rajoute un système de rajout d'images!*@
+            <input type="file" id="Uploadbox" name="file" class="form-control" /> @*Je rajoute un ID pour tracker l'upload de mon image*@          
+        </div>
+
+           <div class="mb-3 col-6">
+            <label asp-for="Product.CategoryId"></label> 
+            <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select"> 
+                <option disabled selected>--Select Category</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span> 
+        </div>
+         <div class="mb-3 col-6">
+            <label asp-for="Product.CarTypeId"></label> 
+            <select asp-for="Product.CarTypeId" asp-items="@Model.CarTypeList" class="form-select"> 
+                <option disabled selected>--Select Type of Toy</option>
+            </select>
+            <span asp-validation-for="Product.CarTypeId" class="text-danger"></span> 
+        </div>
+        <div class="col-12">
+            @if (Model.Product.Id != 0)
+            {
+                <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+            }
+            else
+            {
+                <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Create</button> @*Avec le "onclick je fais une validation sur l'image que l'on upload!*@
+            }        
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List </a>
+        </div>
+        
+    </div>
+
+        </div>
+        <div class="col-2 pt-4">
+            
+            <img src="\@Model.Product.ImageURL"
+			width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+    </div>
+    
+</form>
+<br />
+
+
+@*Je rajoute cette section script et cela me donne une validation coté client.
+    Avantage : Je ne contact pas le serveur, tout se passe coté client!!!!
+*@
+
+@section Scripts
+{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+    <script> //Tiny MCE API
+    tinymce.init({
+      selector: 'textarea',
+      plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
+      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
+      toolbar_mode: 'floating',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+    });
+  </script>
+
+     <script>  //Script JS avec SweetAlerts2 pour un petit pop up de validation quand aucune image n'est uploadé!
+                function ValidateInput(){
+                    if(document.getElementById('Uploadbox').value==""){
+                        Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please upload an image!',            
+                        });
+                        return false;
+                    }
+                    return true;
+                }
+     </script>
+}

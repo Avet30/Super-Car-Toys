@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CarType> 
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container p-3">
+    <div class="row pt-8">
+        <div class="col-12  text-center"> @*Je met en Col-6 pour diviser en 2 car bootstrap fais automatiquement 12 colonnes!*@
+            <h2 class="text-primary">Toy Type</h2>
+            <br />
+            <img src="~/lib/MetalCar.png" style="height:300px; width:600px" />
+        </div>
+    </div>
+    <br />
+    <div class="col-12 text-center">
+        <br />
+        <br />
+        <a asp-controller="CarType" asp-action="Create" class="btn btn-primary"> 
+           <i class="bi bi-plus-circle"></i> &nbsp; Create new Toy Type</a> @*Je viens rajouter une Icone de Bootstrap Icons!*@
+    </div>
+</div>
+<br />
+<br />
+
+@*
+Je crée un tableau basique pour afficher mes données et j'utilise le signe @ pour écrire du code C# sur ma page Razor'*@
+<table class="table table-bordered table-striped" style="width:100%"> 
+    <thead>
+        <tr>
+            <th>
+                Toy Type Name
+            </th>
+
+            <th>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model) @*Grace a C# je peux faire un foreach !*@
+        {
+            <tr>
+                <td width="50%">
+                    @obj.Name
+                </td>
+
+                <td>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="CarType" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+                    </div>
+                    <div class="w-75 btn-group" role="group">
+                        <a asp-controller="CarType" asp-action="Delete" asp-route-id="@obj.Id" class="btn btn-primary mx-2"> <i class="bi bi-trash"></i> Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

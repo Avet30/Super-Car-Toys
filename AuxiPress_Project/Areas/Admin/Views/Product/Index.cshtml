@@ -1,0 +1,40 @@
+﻿
+<div class="container p-3">
+    <div class="row pt-8">
+        <div class="col-12  text-center"> @*Je met en Col-6 pour diviser en 2 car bootstrap fais automatiquement 12 colonnes!*@
+            <h2 class="text-primary">Products</h2>
+            <br />
+        </div>
+    </div>
+    <br />
+    <div class="col-12 text-center">
+        <br />
+        <br />
+        <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary"> 
+           <i class="bi bi-plus-circle"></i> &nbsp; Create new Product</a> @*Je viens rajouter une Icone de Bootstrap Icons!*@
+    </div>
+</div>
+<br />
+<br />
+
+@*
+Je crée un tableau basique pour afficher mes données et j'utilise le signe @ pour écrire du code C# sur ma page Razor'*@
+<table id="tblData" class="table table-bordered table-striped" style="width:100%"> 
+    <thead>
+        <tr>
+            <th>Maker</th>
+            <th>Name</th>
+            <th>Price</th>
+           @* <th>EAN</th>*@
+            <th>Category</th>
+            <th>CarType</th>
+            <th></th>
+
+            @*<th></th>*@
+        </tr>
+    </thead>
+</table>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

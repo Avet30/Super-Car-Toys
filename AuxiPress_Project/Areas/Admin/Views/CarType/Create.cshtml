@@ -1,0 +1,31 @@
+﻿@model CarType
+
+<form method="post"> @*Je crée un formulaire avec un HTTP Post!*@
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create new CarType</h2>
+            <hr />
+        <div asp-validation-summary="All"></div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name"></label> 
+            <input asp-for="Name" class="form-control" /> 
+            <span asp-validation-for="Name" class="text-danger"></span> 
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button> 
+        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List </a>
+      
+    </div>
+</form>
+
+
+@*Je rajoute cette section script et cela me donne une validation coté client.
+    Avantage : Je ne contact pas le serveur, tout se passe coté client!!!!
+*@
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}
+

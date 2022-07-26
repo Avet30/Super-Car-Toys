@@ -1,0 +1,36 @@
+﻿@model Category
+
+<form method="post"> @*Je crée un formulaire avec un HTTP Post!*@
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create new Car or Bike Category</h2>
+            <hr />
+        <div asp-validation-summary="All"></div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name"></label> @*Afin de lier cette page à notre Category Model on va utiliser un Tag Helper!*@
+            <input asp-for="Name" class="form-control" /> @*Je crée un input. Quand l'objet sera posté il fera pour la Category Name*@
+            <span asp-validation-for="Name" class="text-danger"></span> @*je valide via ce tag helper coté vue*@
+        </div>
+         <div class="mb-3">
+            <label asp-for="DisplayOrder"></label> @*Afin de lier cette page à notre Category Model on va utiliser un Tag Helper!*@
+            <input asp-for="DisplayOrder" class="form-control" /> @*Je crée un input. Quand l'objet sera posté il fera pour la Category Name*@
+            <span asp-validation-for="DisplayOrder" class="text-danger"></span> @*je valide via ce tag helper coté vue*@
+
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button> @*Je crée le bouton pour Soumettre l'input*@
+        <a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List </a>
+        @*Je rajoute un lien pour revenir sur ma page Category*@
+    </div>
+</form>
+
+
+@*Je rajoute cette section script et cela me donne une validation coté client.
+    Avantage : Je ne contact pas le serveur, tout se passe coté client!!!!
+*@
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}
+
