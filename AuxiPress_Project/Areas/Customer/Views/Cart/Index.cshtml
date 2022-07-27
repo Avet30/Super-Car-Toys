@@ -4,13 +4,13 @@
 	<br />
 	<div class="container">
 		<div class="card">
-			<div class="card-header bg-dark text-light ml-0">
+			<div class="card-header bg-black text-light ml-0">
 				<div class="row">
 					<div class="col-6  pt-2">
 						<i class="fa fa-shopping-cart"></i> &nbsp;
 						Shopping Cart
 					</div>
-					<div class="col-6 text-end">
+					<div class="col-6 text-end color">
 						<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
 					</div>
 				</div>
@@ -28,21 +28,21 @@
 					</div>
 					<div class="col-12  col-lg-5 text-center row">
 						<div class="col-4 text-md-right pt-4">
-							<h6><strong>@item.Product.Price.ToString("c")<span class="text-muted"> x </span>@item.Count </strong></h6>
+							<h6><strong>@item.Price.ToString("c")<span class="text-muted"> x </span>@item.Count </strong></h6>
 						</div>
 						<div class="col-6 col-sm-4 col-lg-6 pt-2">
 							<div class="w-75 btn-group" role="group">
-								<a class="btn btn-primary">
+								<a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary">
 									<i class="bi bi-plus-square"></i>
 								</a> &nbsp;
-								<a class="btn btn-warning">
+								<a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-warning">
 									<i class="bi bi-dash-square"></i>
 								</a>
 							</div>
 
 						</div>
 						<div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
-							<a class="btn btn-danger">
+							<a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-danger">
 								<i class="bi bi-trash-fill"></i>
 							</a>
 						</div>
@@ -54,8 +54,8 @@
 					<div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
 						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between bg-light">
-								<span class="text-info"> Total (USD)</span>
-								<strong class="text-info">$$$</strong>
+								<span class="text-info"> Total (Eur)</span>
+								<strong class="text-info">@Model.CartTotal.ToString("c")</strong>
 							</li>
 						</ul>
 					</div>
@@ -66,7 +66,7 @@
 			<div class="card-footer">
 				<div class="card-footer row">
 					<div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-						<a class="btn btn-success form-control">Summary</a>
+						<a asp-action="Summary" class="btn btn-success form-control">Summary</a>
 					</div>
 				</div>
 			</div>
