@@ -24,5 +24,7 @@ namespace AuxiPress.Models
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
+        [NotMapped] //On ne veut pas qu'il soit lié à notre DB
+        public double Price { get; set; }
     }
 }
